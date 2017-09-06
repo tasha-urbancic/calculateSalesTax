@@ -26,6 +26,14 @@ function add(a, b) {
  return a + b;
 }
 
+function calcTotSales(array) {
+  return array.reduce(add, 0);
+}
+
+function calcTotTaxes(province, salesTaxRates, tot) {
+  return (tot * salesTaxRates[province]);
+}
+
 function calculateSalesTax(salesData, taxRates) {
 var output = {};
   for (var i = 0; i < salesData.length; i++) {
@@ -36,12 +44,15 @@ var output = {};
 
   if(output[company] === undefined) {
     output[company] = {};
+    output[company]["totalSales"] = 0;
+    output[company]["totalTaxes"] = 0;
 
     for (var j = 0; j < provinces.length; j++) {
 
       if(obj.province === provinces[j]) {
-        output[company]["totalSales"] = obj.sales.reduce(add, 0);
-        output[company]["totalTaxes"] = output[company]["totalSales"] * salesTaxRates[provinces[j]];
+        var tot = calcTotSales(obj.sales);
+        output[company]["totalSales"] += tot;
+        output[company]["totalTaxes"] += calcTotTaxes(provinces[j], salesTaxRates, tot);
       }
 
     }
@@ -50,9 +61,9 @@ var output = {};
     for (var j = 0; j < provinces.length; j++) {
 
       if(obj.province === provinces[j]) {
-        output[company]["totalSales"] += obj.sales.reduce(add, 0);
-        var tempTot = obj.sales.reduce(add, 0);
-        output[company]["totalTaxes"] += tempTot * salesTaxRates[provinces[j]];
+        var tot = calcTotSales(obj.sales);
+        output[company]["totalSales"] += tot;
+        output[company]["totalTaxes"] += calcTotTaxes(provinces[j], salesTaxRates, tot);
       }
 
     }
@@ -62,6 +73,7 @@ var output = {};
 
  return output;
 }
+
 
 var results = calculateSalesTax(companySalesData, salesTaxRates);
 console.log(results);
