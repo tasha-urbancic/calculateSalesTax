@@ -35,7 +35,7 @@ function calcTotTaxes(province, salesTaxRates, tot) {
 }
 
 function calculateSalesTax(salesData, taxRates) {
-var output = {};
+  var output = {};
   for (var i = 0; i < salesData.length; i++) {
   var obj = salesData[i];
 
@@ -52,7 +52,7 @@ var output = {};
       if(obj.province === provinces[j]) {
         var tot = calcTotSales(obj.sales);
         output[company]["totalSales"] += tot;
-        output[company]["totalTaxes"] += calcTotTaxes(provinces[j], salesTaxRates, tot);
+        output[company]["totalTaxes"] += calcTotTaxes(provinces[j], taxRates, tot);
       }
 
     }
@@ -63,7 +63,7 @@ var output = {};
       if(obj.province === provinces[j]) {
         var tot = calcTotSales(obj.sales);
         output[company]["totalSales"] += tot;
-        output[company]["totalTaxes"] += calcTotTaxes(provinces[j], salesTaxRates, tot);
+        output[company]["totalTaxes"] += calcTotTaxes(provinces[j], taxRates, tot);
       }
 
     }
