@@ -1,29 +1,29 @@
 var salesTaxRates = {
- AB: 0.05,
- BC: 0.12,
- SK: 0.10
+  AB: 0.05,
+  BC: 0.12,
+  SK: 0.10
 };
 
 var companySalesData = [
- {
-   name: "Telus",
-   province: "BC",
-   sales: [ 100, 200, 400 ]
- },
- {
-   name: "Bombardier",
-   province: "AB",
-   sales: [ 80, 20, 10, 100, 90, 500 ]
- },
- {
-   name: "Telus",
-   province: "SK",
-   sales: [ 500, 100 ]
- }
+  {
+    name: "Telus",
+    province: "BC",
+    sales: [100, 200, 400]
+  },
+  {
+    name: "Bombardier",
+    province: "AB",
+    sales: [80, 20, 10, 100, 90, 500]
+  },
+  {
+    name: "Telus",
+    province: "SK",
+    sales: [500, 100]
+  }
 ];
 
 function add(a, b) {
- return a + b;
+  return a + b;
 }
 
 function calcTotSales(array) {
@@ -37,41 +37,41 @@ function calcTotTaxes(province, salesTaxRates, tot) {
 function calculateSalesTax(salesData, taxRates) {
   var output = {};
   for (var i = 0; i < salesData.length; i++) {
-  var obj = salesData[i];
+    var obj = salesData[i];
 
-  var company = obj.name;
-  var provinces = ['BC','AB','SK'];
+    var company = obj.name;
+    var provinces = ['BC', 'AB', 'SK'];
 
-  if(output[company] === undefined) {
-    output[company] = {};
-    output[company]["totalSales"] = 0;
-    output[company]["totalTaxes"] = 0;
+    if (output[company] === undefined) {
+      output[company] = {};
+      output[company]["totalSales"] = 0;
+      output[company]["totalTaxes"] = 0;
 
-    for (var j = 0; j < provinces.length; j++) {
+      for (var j = 0; j < provinces.length; j++) {
 
-      if(obj.province === provinces[j]) {
-        var tot = calcTotSales(obj.sales);
-        output[company]["totalSales"] += tot;
-        output[company]["totalTaxes"] += calcTotTaxes(provinces[j], taxRates, tot);
+        if (obj.province === provinces[j]) {
+          var tot = calcTotSales(obj.sales);
+          output[company]["totalSales"] += tot;
+          output[company]["totalTaxes"] += calcTotTaxes(provinces[j], taxRates, tot);
+        }
+
       }
 
-    }
+    } else {
+      for (var k = 0; k < provinces.length; k++) {
 
-  } else {
-    for (var j = 0; j < provinces.length; j++) {
+        if (obj.province === provinces[k]) {
+          var total = calcTotSales(obj.sales);
+          output[company]["totalSales"] += total;
+          output[company]["totalTaxes"] += calcTotTaxes(provinces[k], taxRates, total);
+        }
 
-      if(obj.province === provinces[j]) {
-        var tot = calcTotSales(obj.sales);
-        output[company]["totalSales"] += tot;
-        output[company]["totalTaxes"] += calcTotTaxes(provinces[j], taxRates, tot);
       }
-
     }
+
   }
 
- }
-
- return output;
+  return output;
 }
 
 
